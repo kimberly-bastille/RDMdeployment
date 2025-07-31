@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "value": ""
+    },
+    "location": {
+      "value": ""
+    },
+    "resourceToken": {
+      "value": ""
+    },
+    "privateSubnetResourceId": {
+      "value": ""
+    },
+    "virtualNetworkResourceId": {
+      "value": ""
+    },
+    "sshPublicKey": {
+      "value": ""
+    },
+    "adminUsername": {
+      "value": ""
+    },
+    "keyVaultAdminObjectId": {
+      "value": ""
+    },
+    "customDomainName": {
+      "value": ""
+    },
+    "vmSize": {
+      "value": ""
+    },
+    "kubernetesVersion": {
+      "value": ""
+    },
+    "aksNodePoolSubnetResourceId": {
+      "value": ""
+    },
+    "systemNodeCount": {
+      "value": ""
+    },
+    "systemVmSize": {
+      "value": ""
+    },
+    "userVmSize": {
+      "value": ""
+    },
+    "createShinyNodePool": {
+      "value": ""
+    }
+  }
+}
