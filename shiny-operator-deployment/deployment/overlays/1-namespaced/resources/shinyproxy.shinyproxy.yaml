@@ -34,23 +34,23 @@ spec:
       namespace: shinyproxy
       internal-networking: true
       image-pull-policy: Always
-    authentication: simple
-    admin-groups: scientists
+    authentication: openid
+    openid:
+      logout-url: https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/logout
+      auth-url: https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/authorize
+      token-url: https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token
+      jwks-url: https://login.microsoftonline.com/${TENANT_ID}/discovery/v2.0/keys
+      client-id: ${CLIENT_ID}
+      userinfo-url: https://graph.microsoft.com/oidc/userinfo
+      with-pkce: true
+      client-secret: ${CLIENT_SECRET}
     my-apps-mode: Inline
-    users:
-      - name: jack
-        password: password
-        groups: scientists
-      - name: jeff
-        password: password
-        groups: mathematicians
     specs:
       - id: 01_hello
         display-name: Hello Application
         description: Application which demonstrates the basics of a Shiny app
         container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
         container-image: openanalytics/shinyproxy-demo
-        access-groups: [scientists, mathematicians]
   kubernetesPodTemplateSpecPatches: |
     - op: add
       path: /spec/containers/0/env/-

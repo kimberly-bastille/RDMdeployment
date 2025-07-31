@@ -6,8 +6,8 @@ resources:
   - github.com/openanalytics/shinyproxy-operator/docs/deployment/bases/redis-sentinel?ref=v2.2.1
   - github.com/openanalytics/shinyproxy-operator/docs/deployment/bases/namespaced?ref=v2.2.1
   - github.com/openanalytics/shinyproxy-operator/docs/deployment/bases/shinyproxy?ref=v2.2.1
-  - resources/shinyproxy.namespace.yaml
-  - resources/shinyproxy.shinyproxy.yaml
+  - local/shinyproxy.namespace.yaml
+  - local/shinyproxy.shinyproxy.yaml
 
 patches:
-  - path: patches/redis.secret.yaml
+  - path: local/redis.secret.yaml
