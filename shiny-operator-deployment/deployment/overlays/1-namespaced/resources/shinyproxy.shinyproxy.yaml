@@ -76,13 +76,13 @@ spec:
                 subPath: Data
                 readOnly: true
           # Ensure the pod runs with UID/GID 999 and has fsGroup 999 to match Azure Files mount options
-          - op: add
-            path: /spec/securityContext
-            value:
-              runAsUser: 999
-              runAsGroup: 999
-              fsGroup: 999
-              fsGroupChangePolicy: OnRootMismatch
+          # - op: add
+          #   path: /spec/securityContext
+          #   value:
+          #     runAsUser: 999
+          #     runAsGroup: 999
+          #     fsGroup: 999
+          #     fsGroupChangePolicy: OnRootMismatch
   kubernetesPodTemplateSpecPatches: |
     - op: add
       path: /spec/containers/0/env/-
