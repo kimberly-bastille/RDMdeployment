@@ -24,6 +24,8 @@ spec:
           password: ${REDIS_PASSWORD}
           nodes: redis-node-0.redis-headless:26379, redis-node-1.redis-headless:26379, redis-node-2.redis-headless:26379
   proxy:
+    log-as-json: true
+    container-wait-time: 600000000
     store-mode: Redis
     stop-proxies-on-shutdown: false
     title: ShinyProxy
@@ -34,6 +36,7 @@ spec:
       namespace: shinyproxy
       internal-networking: true
       image-pull-policy: Always
+      pod-wait-time: 90000000
     authentication: openid
     openid:
       logout-url: https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/logout
@@ -49,8 +52,29 @@ spec:
       - id: 01_hello
         display-name: Hello Application
         description: Application which demonstrates the basics of a Shiny app
-        container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
-        container-image: openanalytics/shinyproxy-demo
+        container-image: ${IMAGE}
+        kubernetes-pod-patches: |
+          # Add a PVC-backed volume and mount three subfolders into the container
+          # Note: if the pod already defines volumes/volumeMounts, switch to using /spec/volumes/- and /spec/containers/0/volumeMounts/-
+          - op: add
+            path: /spec/volumes
+            value:
+              - name: app-share
+                persistentVolumeClaim:
+                  claimName: app-share-pvc
+          - op: add
+            path: /spec/containers/0/volumeMounts
+            value:
+              - name: app-share
+                mountPath: /srv/rdmtool/saved_regs
+                subPath: saved_regs
+              - name: app-share
+                mountPath: /srv/rdmtool/output
+                subPath: output
+              - name: app-share
+                mountPath: /srv/rdmtool/Data
+                subPath: Data
+                readOnly: true
   kubernetesPodTemplateSpecPatches: |
     - op: add
       path: /spec/containers/0/env/-
@@ -72,16 +96,22 @@ spec:
     - op: add
       path: /spec/serviceAccountName
       value: shinyproxy-sa
-  kubernetesIngressPatches: |
+  kubernetesServicePatches: |
     - op: add
       path: /metadata/annotations
       value:
-        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-        nginx.ingress.kubernetes.io/proxy-body-size: 300m
+        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+        service.beta.kubernetes.io/azure-load-balancer-ipv4: "${LB_PRIVATE_IP}"
     - op: add
-      path: /spec/ingressClassName
-      value: webapprouting.kubernetes.azure.com
+      path: /spec/type
+      value: LoadBalancer
+    - op: add
+      path: /spec/ports/-
+      value:
+        name: lb-80
+        port: 80
+        targetPort: 8080
+        protocol: TCP
   image: openanalytics/shinyproxy:3.2.0
   imagePullPolicy: Always
   fqdn: ${FQDN}

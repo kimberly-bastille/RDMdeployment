@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-app-share
+spec:
+  capacity:
+    storage: ${APP_SHARE_SIZE}
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - dir_mode=0775
+    - file_mode=0664
+    - uid=999
+    - gid=999
+    - mfsymlinks
+    - cache=strict
+  csi:
+    driver: file.csi.azure.com
+    volumeHandle: app-share-${STORAGE_ACCOUNT_NAME}-${APP_SHARE_NAME}
+    volumeAttributes:
+      shareName: ${APP_SHARE_NAME}
+      protocol: smb
+    nodeStageSecretRef:
+      name: azurefiles-secret
+      namespace: ${NAMESPACE}
