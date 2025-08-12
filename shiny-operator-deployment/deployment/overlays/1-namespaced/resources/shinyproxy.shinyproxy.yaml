@@ -110,16 +110,9 @@ spec:
       value:
         service.beta.kubernetes.io/azure-load-balancer-internal: "true"
         service.beta.kubernetes.io/azure-load-balancer-ipv4: "${LB_PRIVATE_IP}"
-    - op: add
+    - op: replace
       path: /spec/type
       value: LoadBalancer
-    - op: add
-      path: /spec/ports/-
-      value:
-        name: lb-80
-        port: 80
-        targetPort: 8080
-        protocol: TCP
   image: openanalytics/shinyproxy:3.2.0
   imagePullPolicy: Always
   fqdn: ${FQDN}
