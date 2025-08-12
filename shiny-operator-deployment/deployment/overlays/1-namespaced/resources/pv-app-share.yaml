@@ -20,7 +20,8 @@ spec:
     volumeHandle: app-share-${STORAGE_ACCOUNT_NAME}-${APP_SHARE_NAME}
     volumeAttributes:
       shareName: ${APP_SHARE_NAME}
-      protocol: smb
+      resourceGroup: ${RESOURCE_GROUP}
+      storageAccount: ${STORAGE_ACCOUNT_NAME}
     nodeStageSecretRef:
       name: azurefiles-secret
       namespace: ${NAMESPACE}
