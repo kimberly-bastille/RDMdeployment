@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: shinyproxy
+
+resources:
+  - github.com/openanalytics/shinyproxy-operator/docs/deployment/bases/redis-sentinel?ref=v2.2.1
+  - github.com/openanalytics/shinyproxy-operator/docs/deployment/bases/namespaced?ref=v2.2.1
+  - github.com/openanalytics/shinyproxy-operator/docs/deployment/bases/shinyproxy?ref=v2.2.1
+  - local/shinyproxy.namespace.yaml
+  - local/shinyproxy.shinyproxy.yaml
+  - local/azurefiles.secret.yaml
+  - local/pv-app-share.yaml
+  - local/pvc-app-share.yaml
+
+patches:
+  - path: local/redis.secret.yaml
