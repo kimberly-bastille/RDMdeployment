@@ -111,7 +111,7 @@ spec:
         kubernetes.azure.com/tls-cert-keyvault-uri: ${CERT_URI}
     - op: add
       path: /spec/ingressClassName
-      value: webapprouting.kubernetes.azure.com
+      value: nginx-shiny
     - op: add
       path: /spec/tls
       value:
