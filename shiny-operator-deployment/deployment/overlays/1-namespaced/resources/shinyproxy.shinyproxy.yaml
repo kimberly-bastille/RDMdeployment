@@ -101,15 +101,23 @@ spec:
     - op: add
       path: /spec/serviceAccountName
       value: shinyproxy-sa
-  kubernetesServicePatches: |
+  kubernetesIngressPatches: |
     - op: add
       path: /metadata/annotations
       value:
-        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-        service.beta.kubernetes.io/azure-load-balancer-ipv4: "${LB_PRIVATE_IP}"
-    - op: replace
-      path: /spec/type
-      value: LoadBalancer
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: 300m
+        kubernetes.azure.com/tls-cert-keyvault-uri: ${CERT_URI}
+    - op: add
+      path: /spec/ingressClassName
+      value: webapprouting.kubernetes.azure.com
+    - op: add
+      path: /spec/tls
+      value:
+        - hosts:
+          - ${FQDN}
+          secretName: keyvault-sp-shinyproxy-ing
   image: openanalytics/shinyproxy:3.2.0
   imagePullPolicy: Always
   fqdn: ${FQDN}
