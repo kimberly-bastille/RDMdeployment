@@ -55,7 +55,7 @@ spec:
         container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
         container-image: openanalytics/shinyproxy-demo
       - id: 02_custom
-        display-name: Hello Application
+        display-name: Custom
         description: Application which demonstrates the basics of a Shiny app
         container-image: ${IMAGE}
         kubernetes-pod-patches: |
