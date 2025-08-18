@@ -59,27 +59,25 @@ spec:
         description: Application which demonstrates the basics of a Shiny app
         container-image: ${IMAGE}
         kubernetes-pod-patches: |
-          # # Add a PVC-backed volume and mount three subfolders into the container
-          # # Note: if the pod already defines volumes/volumeMounts, switch to using /spec/volumes/- and /spec/containers/0/volumeMounts/-
-          # - op: add
-          #   path: /spec/volumes
-          #   value:
-          #     - name: app-share
-          #       persistentVolumeClaim:
-          #         claimName: app-share-pvc
-          # - op: add
-          #   path: /spec/containers/0/volumeMounts
-          #   value:
-          #     - name: app-share
-          #       mountPath: /srv/rdmtool/saved_regs
-          #       subPath: saved_regs
-          #     - name: app-share
-          #       mountPath: /srv/rdmtool/output
-          #       subPath: output
-          #     - name: app-share
-          #       mountPath: /srv/rdmtool/Data
-          #       subPath: Data
-          #       readOnly: true
+          - op: add
+            path: /spec/volumes
+            value:
+              - name: app-share
+                persistentVolumeClaim:
+                  claimName: app-share-pvc
+          - op: add
+            path: /spec/containers/0/volumeMounts
+            value:
+              - name: app-share
+                mountPath: /srv/rdmtool/saved_regs
+                subPath: saved_regs
+              - name: app-share
+                mountPath: /srv/rdmtool/output
+                subPath: output
+              - name: app-share
+                mountPath: /srv/rdmtool/Data
+                subPath: Data
+                readOnly: true
   kubernetesPodTemplateSpecPatches: |
     - op: add
       path: /spec/containers/0/env/-
