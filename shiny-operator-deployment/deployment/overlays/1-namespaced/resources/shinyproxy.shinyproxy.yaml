@@ -52,37 +52,34 @@ spec:
       - id: 01_hello
         display-name: Hello Application
         description: Application which demonstrates the basics of a Shiny app
+        container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
+        container-image: openanalytics/shinyproxy-demo
+      - id: 02_custom
+        display-name: Custom
+        description: Application which demonstrates the basics of a Shiny app
         container-image: ${IMAGE}
         kubernetes-pod-patches: |
-          # Add a PVC-backed volume and mount three subfolders into the container
-          # Note: if the pod already defines volumes/volumeMounts, switch to using /spec/volumes/- and /spec/containers/0/volumeMounts/-
-          - op: add
-            path: /spec/volumes
-            value:
-              - name: app-share
-                persistentVolumeClaim:
-                  claimName: app-share-pvc
-          - op: add
-            path: /spec/containers/0/volumeMounts
-            value:
-              - name: app-share
-                mountPath: /srv/rdmtool/saved_regs
-                subPath: saved_regs
-              - name: app-share
-                mountPath: /srv/rdmtool/output
-                subPath: output
-              - name: app-share
-                mountPath: /srv/rdmtool/Data
-                subPath: Data
-                readOnly: true
-          # Ensure the pod runs with UID/GID 999 and has fsGroup 999 to match Azure Files mount options
+          # # Add a PVC-backed volume and mount three subfolders into the container
+          # # Note: if the pod already defines volumes/volumeMounts, switch to using /spec/volumes/- and /spec/containers/0/volumeMounts/-
           # - op: add
-          #   path: /spec/securityContext
+          #   path: /spec/volumes
           #   value:
-          #     runAsUser: 999
-          #     runAsGroup: 999
-          #     fsGroup: 999
-          #     fsGroupChangePolicy: OnRootMismatch
+          #     - name: app-share
+          #       persistentVolumeClaim:
+          #         claimName: app-share-pvc
+          # - op: add
+          #   path: /spec/containers/0/volumeMounts
+          #   value:
+          #     - name: app-share
+          #       mountPath: /srv/rdmtool/saved_regs
+          #       subPath: saved_regs
+          #     - name: app-share
+          #       mountPath: /srv/rdmtool/output
+          #       subPath: output
+          #     - name: app-share
+          #       mountPath: /srv/rdmtool/Data
+          #       subPath: Data
+          #       readOnly: true
   kubernetesPodTemplateSpecPatches: |
     - op: add
       path: /spec/containers/0/env/-
@@ -104,15 +101,23 @@ spec:
     - op: add
       path: /spec/serviceAccountName
       value: shinyproxy-sa
-  kubernetesServicePatches: |
+  kubernetesIngressPatches: |
     - op: add
       path: /metadata/annotations
       value:
-        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-        service.beta.kubernetes.io/azure-load-balancer-ipv4: "${LB_PRIVATE_IP}"
-    - op: replace
-      path: /spec/type
-      value: LoadBalancer
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: 300m
+        kubernetes.azure.com/tls-cert-keyvault-uri: ${CERT_URI}
+    - op: add
+      path: /spec/ingressClassName
+      value: nginx-shiny
+    - op: add
+      path: /spec/tls
+      value:
+        - hosts:
+          - ${FQDN}
+          secretName: keyvault-sp-shinyproxy-ing
   image: openanalytics/shinyproxy:3.2.0
   imagePullPolicy: Always
   fqdn: ${FQDN}
