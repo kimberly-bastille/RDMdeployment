@@ -78,6 +78,11 @@ spec:
                 mountPath: /srv/rdmtool/Data
                 subPath: Data
                 readOnly: true
+          - op: add
+            path: /spec/containers/0/env/-
+            value:
+              name: AZURE_STORAGE_QUEUE_URL
+              value: ${AZURE_STORAGE_QUEUE_URL}                
   kubernetesPodTemplateSpecPatches: |
     - op: add
       path: /spec/containers/0/env/-
