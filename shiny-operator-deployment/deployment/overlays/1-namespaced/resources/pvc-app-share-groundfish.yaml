@@ -9,4 +9,4 @@ spec:
     requests:
       storage: ${APP_SHARE_SIZE}
   storageClassName: ""
-  volumeName: pv-app-share-groundfish
+  volumeName: ${GROUNDFISH_SHARE_NAME}
