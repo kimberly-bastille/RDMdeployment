@@ -684,7 +684,7 @@ spec:
           value: "6379"
         - name: REDIS_DATA_DIR
           value: /data
-        image: docker.io/bitnami/redis:7.0.5-debian-11-r25
+        image: openanalytics/redis
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
@@ -765,7 +765,7 @@ spec:
           value: "no"
         - name: REDIS_SENTINEL_PORT
           value: "26379"
-        image: docker.io/bitnami/redis-sentinel:7.0.5-debian-11-r24
+        image: openanalytics/redis-sentinel
         imagePullPolicy: IfNotPresent
         lifecycle:
           preStop:
