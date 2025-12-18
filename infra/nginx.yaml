@@ -1,0 +1,10 @@
+apiVersion: approuting.kubernetes.azure.com/v1alpha1 
+kind: NginxIngressController 
+metadata: 
+  name: nginx-shiny 
+spec: 
+  ingressClassName: nginx-shiny 
+  controllerNamePrefix: nginx-shiny 
+  loadBalancerAnnotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "NMFS-NEFSC-SN-PUB"
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"

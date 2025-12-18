@@ -7,3 +7,8 @@ resources:
 
 patches:
   - path: patches/redis-node.statefulset.yaml
+images:
+  - name: docker.io/bitnami/redis-sentinel
+    newName: openanalytics/redis-sentinel
+  - name: docker.io/bitnami/redis
+    newName: openanalytics/redis
