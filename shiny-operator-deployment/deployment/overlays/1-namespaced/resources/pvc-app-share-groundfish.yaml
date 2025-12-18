@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: app-share-groundfish-pvc
+  name: app-share-groundfish-pvc-2
 spec:
   accessModes:
     - ReadWriteMany
@@ -9,4 +9,4 @@ spec:
     requests:
       storage: ${APP_SHARE_SIZE}
   storageClassName: ""
-  volumeName: ${GROUNDFISH_SHARE_NAME}
+  volumeName: pv-app-share-groundfish-2

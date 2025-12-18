@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-app-share-groundfish
+  name: pv-app-share-groundfish-2
 spec:
   capacity:
     storage: ${APP_SHARE_SIZE}
