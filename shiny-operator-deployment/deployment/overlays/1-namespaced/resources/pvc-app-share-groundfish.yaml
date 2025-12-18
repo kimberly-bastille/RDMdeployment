@@ -7,6 +7,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: ${GROUNDFISH_SHARE_SIZE}
+      storage: ${APP_SHARE_NAME_GROUNDFISH}
   storageClassName: ""
   volumeName: pv-app-share-groundfish

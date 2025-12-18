@@ -4,7 +4,7 @@ metadata:
   name: pv-app-share-groundfish
 spec:
   capacity:
-    storage: ${GROUNDFISH_SHARE_SIZE}
+    storage: ${APP_SHARE_NAME_GROUNDFISH}
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain

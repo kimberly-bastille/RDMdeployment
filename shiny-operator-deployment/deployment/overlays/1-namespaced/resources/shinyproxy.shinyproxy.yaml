@@ -51,7 +51,7 @@ spec:
     specs:
       - id: 01_groundfish
         display-name: Groundfish
-        description: Application which demonstrates the basics of a Shiny app
+        description: New England
         container-image: ${IMAGE_GROUNDFISH}
         kubernetes-pod-patches: |
           - op: add
@@ -80,7 +80,7 @@ spec:
               value: ${AZURE_STORAGE_QUEUE_URL}
       - id: 02_custom
         display-name: Fluke, black sea bass, scup
-        description: Application which demonstrates the basics of a Shiny app
+        description: Mid-Atlantic
         container-image: ${IMAGE}
         kubernetes-pod-patches: |
           - op: add
