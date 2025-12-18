@@ -49,11 +49,35 @@ spec:
       client-secret: ${CLIENT_SECRET}
     my-apps-mode: Inline
     specs:
-      - id: 01_hello
+      - id: 01_groundfish
         display-name: Groundfish
         description: Application which demonstrates the basics of a Shiny app
-        container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
-        container-image: openanalytics/shinyproxy-demo
+        container-image: ${IMAGE_GROUNDFISH}
+        kubernetes-pod-patches: |
+          - op: add
+            path: /spec/volumes
+            value:
+              - name: app-share-groundfish
+                persistentVolumeClaim:
+                  claimName: app-share-groundfish-pvc
+          - op: add
+            path: /spec/containers/0/volumeMounts
+            value:
+              - name: app-share-groundfish
+                mountPath: /srv/rdmtool/saved_regs
+                subPath: saved_regs
+              - name: app-share-groundfish
+                mountPath: /srv/rdmtool/output
+                subPath: output
+              - name: app-share-groundfish
+                mountPath: /srv/rdmtool/Data
+                subPath: Data
+                readOnly: true
+          - op: add
+            path: /spec/containers/0/env/-
+            value:
+              name: AZURE_STORAGE_QUEUE_URL
+              value: ${AZURE_STORAGE_QUEUE_URL}
       - id: 02_custom
         display-name: Fluke, black sea bass, scup
         description: Application which demonstrates the basics of a Shiny app

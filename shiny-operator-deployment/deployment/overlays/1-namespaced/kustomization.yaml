@@ -11,6 +11,8 @@ resources:
   - local/azurefiles.secret.yaml
   - local/pv-app-share.yaml
   - local/pvc-app-share.yaml
+  - local/pv-app-share-groundfish.yaml
+  - local/pvc-app-share-groundfish.yaml
 
 patches:
   - path: local/redis.secret.yaml
