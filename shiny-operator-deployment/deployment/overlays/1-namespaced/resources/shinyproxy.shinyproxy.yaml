@@ -59,7 +59,7 @@ spec:
             value:
               - name: app-share-groundfish
                 persistentVolumeClaim:
-                  claimName: app-share-groundfish-pvc-2
+                  claimName: app-share-groundfish-pvc-3
           - op: add
             path: /spec/containers/0/volumeMounts
             value:
