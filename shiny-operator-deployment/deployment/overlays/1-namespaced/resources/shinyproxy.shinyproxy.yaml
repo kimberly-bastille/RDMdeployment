@@ -76,8 +76,8 @@ spec:
           - op: add
             path: /spec/containers/0/env/-
             value:
-              name: AZURE_STORAGE_QUEUE_URL
-              value: ${AZURE_STORAGE_QUEUE_URL}
+              name: GROUNDFISH_AZURE_STORAGE_QUEUE_URL
+              value: ${GROUNDFISH_AZURE_STORAGE_QUEUE_URL}
       - id: 02_custom
         display-name: Fluke, black sea bass, scup
         description: Mid-Atlantic
