@@ -28,6 +28,8 @@ spec:
     container-wait-time: 600000000
     store-mode: Redis
     stop-proxies-on-shutdown: false
+    title: NOAA Fisheries – Recreational Fisheries Decision Support Tool
+    logoUrl: https://raw.githubusercontent.com/kimberly-bastille/RDMdeployment/main/branding/noaa-logo.png
     title: ShinyProxy
     logoUrl: ""
     landingPage: /
